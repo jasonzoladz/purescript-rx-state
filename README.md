@@ -45,7 +45,7 @@ Now, define your update function.  Your update function takes a `State`, and an 
 
 ```purescript
 update :: State -> Action -> State
-update state action = do
+update state action =
   case action of
     Increment -> state { num = state.num + 1 }
     Decrement -> state { num = state.num - 1 }
