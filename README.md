@@ -90,13 +90,11 @@ hello = createClass $ spec unit $ \ctx -> do
                   ]
 ```
 
-Finally, wire it up in `main` using `startApp`.  Again, I'm using `purescript-react` for rendering but you could substitute function of with the same type as:
+Finally, wire it up in `main` using `startApp`.  Here, I'm using `purescript-react` for rendering but you could substitute any function with the same type as:
 
 ```purescript
 fooRender :: forall state view eff.  state -> Eff eff view
 ```
-
-A minimal, but complete, example is in the  [example repo](https://github.com/jasonzoladz/purescript-rx-state-react-example).
 
 ```purescript
 main :: forall eff. Eff (dom :: DOM, console :: CONSOLE, ajax :: AJAX | eff ) Unit
@@ -117,3 +115,5 @@ main = startApp update performEffect myRender actionsChannel effectsChannel init
       elm <- getElementById (ElementId "app") (documentToNonElementParentNode (htmlDocumentToDocument doc))
       return $ fromJust (toMaybe elm)
 ```
+
+A minimal, but complete, example is in the  [example repo](https://github.com/jasonzoladz/purescript-rx-state-react-example).
