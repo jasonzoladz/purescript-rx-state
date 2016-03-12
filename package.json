@@ -1,0 +1,22 @@
+{
+  "name": "purescript-rx-state",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./node_modules/.bin/webpack-dev-server --inline --hot",
+    "compile": "node ./node_modules/.bin/webpack "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "purescript-webpack-plugin": "^0.2.0-beta.4",
+    "purs-loader": "^0.6.0-beta.3",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "dependencies": {
+    "rx": "^4.1.0"
+  }
+}
