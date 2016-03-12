@@ -2,7 +2,7 @@
 NOT READY YET.  COME BACK SOON.
 
 
-A tiny library for unidirectional data flow in PureScript applications using RxJS.  (tldr: [Erik Meijer](https://en.wikipedia.org/wiki/Erik_Meijer_(computer_scientist)) has already solved your state management problems.)
+A tiny library for unidirectional data flow in PureScript applications using RxJS.  (tl;dr: [Erik Meijer](https://en.wikipedia.org/wiki/Erik_Meijer_(computer_scientist)) has already solved your state management problems.)
 
 As this library relies on [RxJS](https://github.com/Reactive-Extensions/RxJS), you'll need to `npm install rx`.
 
@@ -26,19 +26,19 @@ data Action
   | NoOp
 
 data Effect
-  = AjaxLaunchMissles
+  = AjaxIncrement
   | NoFx
 ```
 
-Next, define a `Channel`s for your `Action`s and `Effect`s.  
+Next, define `Channel`s for your `Action`s and `Effect`s.  
 **Note: your `Channel` must carry a `Foldable`.**  Most likely, you'll use an `Array`, like so:
 
 ```purescript
-actionChannel :: Channel (Array Action)
-actionChannel = newChannel []
+actionsChannel :: Channel (Array Action)
+actionsChannel = newChannel []
 
-effectChannel :: Channel (Array Effect)
-effectChannel = newChannel []
+effectsChannel :: Channel (Array Effect)
+effectsChannel = newChannel []
 ```
 
 Now, define your update function.  Your update function takes a `State`, and an `Action`, and returns a new `State`.
@@ -58,15 +58,45 @@ And define your function that performs (possibly asynchronous) effects:
 performEffect :: forall e. Effect -> Eff ( console :: CONSOLE, ajax :: AJAX | e) Unit
 performEffect fx =
   case fx of
-    AjaxLaunchMissles -> runAff
+    AjaxIncrement -> runAff
                             (\_ -> send [ Increment ] actionsChannel)
                             (\_ -> send [ Increment ] actionsChannel)
-                            (affjax $ defaultRequest { url = "/api", method = GET })
+                            ((affjax $ defaultRequest { url = "http://jsonplaceholder.typicode.com/posts/1", method = GET })
 
     NoFx              -> return unit
 ```
 
-Finally, wire it up in `main` using `startApp`...  Here, I'm using `purescript-react` for rendering.  A minimal, but complete, example is [here](https://github.com/jasonzoladz/purescript-rx-state-react-example).
+
+In your `views`, you can dispatch an `Action` or `Effect` by using the `send` function to put an `Action` or `Effect` on the corresponding `Channel`.  Again, note that you are `send`ing a `Foldable Action`/`Foldable Effect`, since you may want to dispatch multiple actions or effects at the same time.
+
+If using `purescript-react`, you might do this:
+
+```purescript
+hello :: ReactClass AppState
+hello = createClass $ spec unit $ \ctx -> do
+  state <- getProps ctx
+  return $
+    D.div [] [ D.h1 []
+                  [ D.text "Hello, the state is: "
+                  , D.text (show state.num)
+                  ],
+               D.div []
+                  [ D.button [ P.onClick (\_ -> send [Increment] actionsChannel) ]
+                             [ D.text "Increment" ]
+                  , D.button [ P.onClick \_ -> send [Decrement] actionsChannel ]
+                             [ D.text "Decrement" ]
+                  , D.button [ P.onClick \_ -> send [AjaxIncrement] effectsChannel ]
+                             [ D.text "Ajax Increment" ]
+                  ]
+```
+
+Finally, wire it up in `main` using `startApp`.  Again, I'm using `purescript-react` for rendering but you could substitute function of with the same type as:
+
+```purescript
+fooRender :: forall state view eff.  state -> Eff eff view
+```
+
+A minimal, but complete, example is in the  [example repo](https://github.com/jasonzoladz/purescript-rx-state-react-example).
 
 ```purescript
 main :: forall eff. Eff (dom :: DOM, console :: CONSOLE, ajax :: AJAX | eff ) Unit
