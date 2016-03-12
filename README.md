@@ -101,7 +101,7 @@ main :: forall eff. Eff (dom :: DOM, console :: CONSOLE, ajax :: AJAX | eff ) Un
 main = startApp update performEffect myRender actionsChannel effectsChannel initState
 
   where
-    view :: AppState -> ReactElement
+    view :: State -> ReactElement
     view appState = D.div' [ createFactory hello appState ]
 
     myRender state = do
