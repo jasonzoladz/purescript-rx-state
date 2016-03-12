@@ -72,7 +72,7 @@ In your `views`, you can dispatch an `Action` or `Effect` by using the `send` fu
 If using `purescript-react`, you might do this:
 
 ```purescript
-hello :: ReactClass AppState
+hello :: ReactClass State
 hello = createClass $ spec unit $ \ctx -> do
   state <- getProps ctx
   return $
