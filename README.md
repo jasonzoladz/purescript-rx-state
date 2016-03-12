@@ -52,7 +52,7 @@ update state action = do
     NoOp      -> state
 ```
 
-And define your function that performs (possibly asynchronous) effects:
+And define your function that performs (possibly asynchronous) effects.  If an asynchronous `Effect` returns a payload, you simply dispatch the payload as a part of another `Action`.
 
 ```purescript
 performEffect :: forall e. Effect -> Eff ( console :: CONSOLE, ajax :: AJAX | e) Unit
