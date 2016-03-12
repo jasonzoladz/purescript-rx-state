@@ -1,6 +1,4 @@
 # purescript-rx-state
-NOT READY YET.  COME BACK SOON.
-
 
 A tiny library for unidirectional data flow in PureScript applications using RxJS.  (tl;dr: [Erik Meijer](https://en.wikipedia.org/wiki/Erik_Meijer_(computer_scientist)) has already solved your state management problems.)
 
