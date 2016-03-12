@@ -41,6 +41,49 @@ effectChannel :: Channel (Array Effect)
 effectChannel = newChannel []
 ```
 
-Now, define your update function and effect function.  Your update function takes a `State`, and an `Action`, and returns a new `State`.
+Now, define your update function.  Your update function takes a `State`, and an `Action`, and returns a new `State`.
 
-..............
+```purescript
+update :: State -> Action -> State
+update state action = do
+  case action of
+    Increment -> state { num = state.num + 1 }
+    Decrement -> state { num = state.num - 1 }
+    NoOp      -> state
+```
+
+And define your function that performs (possibly asynchronous) effects:
+
+```purescript
+performEffect :: forall e. Effect -> Eff ( console :: CONSOLE, ajax :: AJAX | e) Unit
+performEffect fx =
+  case fx of
+    AjaxLaunchMissles -> runAff
+                            (\_ -> send [ Increment ] actionsChannel)
+                            (\_ -> send [ Increment ] actionsChannel)
+                            (affjax $ defaultRequest { url = "/api", method = GET })
+
+    NoFx              -> return unit
+```
+
+Finally, wire it up in `main` using `startApp`...  Here, I'm using `purescript-react` for rendering.  A minimal, but complete, example is [here](https://github.com/jasonzoladz/purescript-rx-state-react-example).
+
+```purescript
+main :: forall eff. Eff (dom :: DOM, console :: CONSOLE, ajax :: AJAX | eff ) Unit
+main = startApp update performEffect myRender actionsChannel effectsChannel initState
+
+  where
+    view :: AppState -> ReactElement
+    view appState = D.div' [ createFactory hello appState ]
+
+    myRender state = do
+      container <- elm'
+      RD.render (view state) container
+
+    elm' :: forall eff. Eff (dom :: DOM | eff) Element
+    elm' = do
+      win <- window
+      doc <- document win
+      elm <- getElementById (ElementId "app") (documentToNonElementParentNode (htmlDocumentToDocument doc))
+      return $ fromJust (toMaybe elm)
+```
