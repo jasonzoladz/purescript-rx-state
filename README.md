@@ -93,7 +93,7 @@ hello = createClass $ spec unit $ \ctx -> do
 Finally, wire it up in `main` using `startApp`.  Here, I'm using `purescript-react` for rendering but you could substitute any function with the same type as:
 
 ```purescript
-fooRender :: forall state view eff.  state -> Eff eff view
+fooRender :: forall view eff.  State -> Eff eff view
 ```
 
 ```purescript
