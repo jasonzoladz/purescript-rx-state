@@ -1,1 +1,0 @@
-require('./RxState.purs').startApp();

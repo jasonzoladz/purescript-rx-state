@@ -1,20 +1,24 @@
 {
   "name": "purescript-rx-state",
-  "description": "purescript-rx-state",
-  "main": "index.js",
-  "authors": [
-    "Jason M. Zoladz <jasonzoladz@gmail.com>"
-  ],
-  "license": "ISC",
-  "moduleType": [],
-  "homepage": "",
-  "private": true,
+  "description": "Simple, unidirectional data flow for PureScript apps (powered by Reactive Extensions).",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jasonzoladz/purescript-rx-state.git"
+  },
+  "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "test",
     "tests"
+  ],
+  "keywords": [
+    "purescript",
+    "rx",
+    "redux",
+    "unidirectional"
   ],
   "dependencies": {
     "purescript-prelude": "^0.1.4",

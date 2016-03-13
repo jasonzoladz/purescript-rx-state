@@ -1,7 +1,7 @@
 /* global exports */
 "use strict";
 
-// module RxState
+// module Data.RxState
 
 var Rx = require('rx');
 
@@ -48,6 +48,48 @@ exports.foldp = function scan(f) {
       return ob.scan(function(acc, value) {
         return f(value)(acc);
       }, seed);
+    };
+  };
+}
+
+exports.merge = function (ob) {
+  return function(other) {
+    return ob.merge(other);
+  };
+}
+
+exports.filter = function (p){
+  return function(ob){
+    return ob.filter(p);
+  };
+}
+
+exports._map = function (f) {
+  return function(ob) {
+    return ob.map(f);
+  };
+}
+
+exports.flatMap = function (ob) {
+  return function(f) {
+    return ob.flatMap(f);
+  };
+}
+
+exports.take = function (n) {
+  return function(ob) {
+    return ob.take(n);
+  };
+}
+
+exports.just = Rx.Observable.just;
+
+exports.combineLatest = function (f) {
+  return function(ob1) {
+    return function(ob2) {
+      return ob1.combineLatest(ob2, function (x, y) {
+        return f(x)(y);
+      });
     };
   };
 }

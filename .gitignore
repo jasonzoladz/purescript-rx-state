@@ -1,11 +1,23 @@
-/bower_components/
+bower_components/
 
-/node_modules/
+node_modules/
 
-/output/
+output/
 
 bundle.js
 
-/.pulp-cache/
+.pulp-cache/
 
 npm-debug.log
+
+tags
+
+.psci
+
+.psci_modules/
+
+webpack.config.js
+
+src/entry.js
+
+src/entry.txt
