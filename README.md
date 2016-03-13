@@ -8,6 +8,8 @@ As this library relies on [RxJS](https://github.com/Reactive-Extensions/RxJS), y
 
 ####Install
 
+`npm (or bower) install rx` or use a CDN
+
 `bower install purescript-rx-state`
 
 ####Usage
@@ -33,7 +35,7 @@ data Effect
 ```
 
 Next, define `Channel`s for your `Action`s and `Effect`s.  
-**Note: If you want to use startApp, your `Channel` must carry a `Foldable`.**  Most likely, you'll use an `Array`, like so:
+**Note: If you want to use startApp, your actions and effects `Channel`s must carry a `Foldable`.**  Most likely, you'll use an `Array`, like so:
 
 ```purescript
 actionsChannel :: Channel (Array Action)
@@ -41,6 +43,14 @@ actionsChannel = newChannel []
 
 effectsChannel :: Channel (Array Effect)
 effectsChannel = newChannel []
+```
+
+
+If you need to kickoff any ajax requests when the app starts, then simply put them in your initial `effectsChannel` declaration like this:
+
+```purescript
+effectsChannel :: Channel (Array Effect)
+effectsChannel = newChannel [ AjaxIncrement ]
 ```
 
 Now, define your update function.  Your update function takes a `State`, and an `Action`, and returns a new `State`.
@@ -56,6 +66,7 @@ update state action =
 
 And define your function that performs (possibly asynchronous) effects.  If an asynchronous `Effect` returns a payload, you simply dispatch the payload as a part of another `Action`.
 
+
 ```purescript
 performEffect :: forall e. Effect -> Eff ( console :: CONSOLE, ajax :: AJAX | e) Unit
 performEffect fx =
@@ -69,7 +80,7 @@ performEffect fx =
 ```
 
 
-In your `views`, you can dispatch an `Action` or `Effect` by using the `send` function to put an `Action` or `Effect` on the corresponding `Channel`.  Again, note that you are `send`ing a `Foldable Action`/`Foldable Effect`, since you may want to dispatch multiple actions or effects at the same time.
+In your `views`, you can dispatch an `Action` or `Effect` by using the `send` function to put an `Action` or `Effect` value on the corresponding `Channel`.  Again, note that (when using `startApp`) you are `send`ing a `Foldable Action`/`Foldable Effect`, since you may want to dispatch multiple actions or effects at the same time.
 
 If using `purescript-react`, you might do this:
 
@@ -92,7 +103,24 @@ hello = createClass $ spec unit $ \ctx -> do
                   ]
 ```
 
-Finally, wire it up in `main` using `startApp`.  Here, I'm using `purescript-react` for rendering but you could substitute any function with the same type as:
+Finally, if you wish, wire it up in `main` using `startApp`.  
+
+`startApp` has the following type signature.
+
+```purescript
+startApp :: forall eff state action effect view f. (Foldable f)
+                                                => (state -> action -> state) -- Your "update" function
+                                                -> (effect -> Eff eff Unit) -- Your "effects" function
+                                                -> (state -> Eff eff view) -- Your "render" function
+                                                -> Channel (f action) -- Your "actions" channel
+                                                -> Channel (f effect) -- Your "effects" channel
+                                                -> state -- Your initial state
+                                                -> Eff eff Unit
+```
+
+`startApp` isn't required though.  `foldp` (an alias for RxJS' `scan` function) is available if you want to wire the signal graph yourself.  (This may be necessary if you want to `map` custom channels to actions and then `merge` them together -- for example, mapping a `Channel Path` to a `Channel Action` for single page app routing.  Note:  I plan to provide a `startApp` for single page routing in [`purescript-rx-state-utils`](https://github.com/jasonzoladz/purescript-rx-state-utils).  Stay tuned . . .)
+
+Here, I'm using `purescript-react` for rendering but you could substitute any function with the same type as:
 
 ```purescript
 fooRender :: forall view eff.  State -> Eff eff view
