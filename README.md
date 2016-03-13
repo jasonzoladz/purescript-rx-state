@@ -33,7 +33,7 @@ data Effect
 ```
 
 Next, define `Channel`s for your `Action`s and `Effect`s.  
-**Note: your `Channel` must carry a `Foldable`.**  Most likely, you'll use an `Array`, like so:
+**Note: If you want to use startApp, your `Channel` must carry a `Foldable`.**  Most likely, you'll use an `Array`, like so:
 
 ```purescript
 actionsChannel :: Channel (Array Action)
