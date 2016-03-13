@@ -72,7 +72,7 @@ performEffect :: forall e. Effect -> Eff ( console :: CONSOLE, ajax :: AJAX | e)
 performEffect fx =
   case fx of
     AjaxIncrement -> runAff
-                            (\_ -> send [ Increment ] actionsChannel)
+                            (\_ -> send [ Decrement ] actionsChannel)
                             (\_ -> send [ Increment ] actionsChannel)
                             ((affjax $ defaultRequest { url = "http://jsonplaceholder.typicode.com/posts/1", method = GET })
 
