@@ -66,16 +66,6 @@ _map :: forall a b. (a -> b) -> Channel a -> Channel b
 
 Create a new channel by mapping a function over an existing channel.
 
-#### `(<~)`
-
-``` purescript
-infixl 9 _map as <~
-```
-
-_left-associative / precedence 9_
-
-Fancy map.
-
 #### `filter`
 
 ``` purescript

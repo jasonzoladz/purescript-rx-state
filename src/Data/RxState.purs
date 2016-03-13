@@ -5,7 +5,6 @@ module Data.RxState
   , foldp
   , subscribe
   , merge
-  , (<~)
   , _map
   , filter
   , just
@@ -41,8 +40,6 @@ foreign import merge :: forall a. Channel a -> Channel a -> Channel a
 -- | Create a new channel by mapping a function over an existing channel.
 foreign import _map :: forall a b. (a -> b) -> Channel a -> Channel b
 
--- | Fancy map.
-infixl 9 _map as <~
 
 -- | Create a new channel by selecting values from an existing channel.
 foreign import filter :: forall a. (a -> Boolean) -> Channel a -> Channel a
