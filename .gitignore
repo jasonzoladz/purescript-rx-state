@@ -21,3 +21,5 @@ webpack.config.js
 src/entry.js
 
 src/entry.txt
+
+pursuit.json
