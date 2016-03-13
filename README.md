@@ -6,6 +6,10 @@ As this library relies on [RxJS](https://github.com/Reactive-Extensions/RxJS), y
 
 (Note:  I've deliberately not taken a dependency on [`purescript-rx`](https://github.com/anttih/purescript-rx).  It's a very nice wrapper (and you should use it), but I've wrapped a couple RxJS functions that don't line-up with the types defined in `purescript-rx`.  There are no conflicts, however.  You can use it alongside this.)
 
+####Install
+
+`bower install purescript-rx-state`
+
 ####Usage
 
 It's dead simple.  The API is very similar to `startApp` in Elm.
