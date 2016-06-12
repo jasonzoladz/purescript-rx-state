@@ -112,7 +112,7 @@ Creates a new channel comprising at most `n` values from the input channel.
 #### `startApp`
 
 ``` purescript
-startApp :: forall eff state action effect view f. (Foldable f) => (state -> action -> state) -> (effect -> Eff eff Unit) -> (state -> Eff eff view) -> Channel (f action) -> Channel (f effect) -> state -> Eff eff Unit
+startApp :: forall eff state action effect view f. Foldable f => (state -> action -> state) -> (effect -> Eff eff Unit) -> (state -> Eff eff view) -> Channel (f action) -> Channel (f effect) -> state -> Eff eff Unit
 ```
 
 Kicks off your app.  Takes an `update` function, an `effect` function,

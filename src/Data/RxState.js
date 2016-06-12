@@ -8,19 +8,6 @@ var Rx = require('rx');
 exports.newChannel = function(val) {
   var subject = new Rx.BehaviorSubject(val);
 
-  // var subscription = subject.subscribe(
-  //   function (x) {
-  //     console.log(x);
-  //   },
-  //   function (err) {
-  //       console.log('Error: ' + err);
-  //   },
-  //   function () {
-  //       console.log('Completed');
-  //   });
-  //
-  // subject.onNext(42);
-
   return subject;
 }
 

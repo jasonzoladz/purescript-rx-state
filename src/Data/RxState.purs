@@ -87,12 +87,12 @@ startApp updateFunction effectFunction renderFunction actionChan effectChan init
 
   let stateChannel = foldp (updateMany updateFunction) initState actionChan
 
-  subscribe stateChannel (\state -> (renderFunction state) >>= \_ -> return unit)
+  subscribe stateChannel (\state -> (renderFunction state) >>= \_ -> pure unit)
 
   subscribe effectChan (effectsMany effectFunction)
 
   where
-  updateMany :: forall state action eff f. (Foldable f)
+  updateMany :: forall state action f. (Foldable f)
                                       => (state -> action -> state)
                                       -> f action
                                       -> state

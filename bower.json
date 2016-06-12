@@ -1,7 +1,7 @@
 {
   "name": "purescript-rx-state",
   "description": "Simple, unidirectional data flow for PureScript apps (powered by Reactive Extensions).",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/jasonzoladz/purescript-rx-state.git"
@@ -21,8 +21,8 @@
     "unidirectional"
   ],
   "dependencies": {
-    "purescript-prelude": "^0.1.4",
-    "purescript-eff": "^0.1.2",
-    "purescript-foldable-traversable": "^0.4.2"
+    "purescript-prelude": "^1.0.1",
+    "purescript-eff": "^1.0.0",
+    "purescript-foldable-traversable": "^1.0.0"
   }
 }
